@@ -8,15 +8,15 @@ class DepthService:
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
         print(f"Using device: {self.device}")
         
-        # Load MiDaS Small model
-        self.model_type = "MiDaS_small"
+        # Load DPT Large model (High Accuracy)
+        self.model_type = "DPT_Large"
         self.model = torch.hub.load("intel-isl/MiDaS", self.model_type)
         self.model.to(self.device)
         self.model.eval()
         
         # Load transform
         midas_transforms = torch.hub.load("intel-isl/MiDaS", "transforms")
-        self.transform = midas_transforms.small_transform
+        self.transform = midas_transforms.dpt_transform
 
     def process_image(self, image_path):
         img = cv2.imread(image_path)
@@ -35,6 +35,12 @@ class DepthService:
             ).squeeze()
             
         depth_map = prediction.cpu().numpy()
+        
+        # Apply Bilateral Filter to smooth noise while keeping edges sharp
+        # d: Diameter of each pixel neighborhood
+        # sigmaColor: Filter sigma in the color space
+        # sigmaSpace: Filter sigma in the coordinate space
+        depth_map = cv2.bilateralFilter(depth_map, d=5, sigmaColor=75, sigmaSpace=75)
         
         # Normalize depth map for visualization/displacement
         depth_min = depth_map.min()
