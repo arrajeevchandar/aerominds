@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+venv/
+backend/venv/
+__pycache__/
+*.pyc
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Environment variables
+.env
+.env.local
+
+# Media
+uploads/
+processed/
+*.png
+*.jpg
+*.jpeg
