@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Viewer3D from "@/components/Viewer3D";
+import styles from "./brutalist.module.css";
 
 export default function Home() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -51,61 +52,99 @@ export default function Home() {
     };
 
     return (
-        <main className="flex min-h-screen flex-col items-center p-8 bg-black text-white">
-            <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-                Drone 3D Scene Reconstruction
-            </h1>
+        <main className={styles.container}>
+            {/* Navigation */}
+            <nav className={styles.nav}>
+                <div className={styles.logo}>
+                    <span>●</span>
+                    <span>▼</span>
+                    <span>▲</span>
+                    <span>✖</span>
+                </div>
+                <div className={styles.navLinks}>
+                    <button className={styles.navLink}>Home</button>
+                    <button className={styles.navLink}>History</button>
+                    <button className={styles.navLink}>Buildings</button>
+                    <button className={styles.navLink}>About Us</button>
+                </div>
+                <div className={styles.socials}>
+                    {/* Placeholder for social icons if needed */}
+                </div>
+            </nav>
 
-            <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Control Panel */}
-                <div className="flex flex-col gap-6 p-6 bg-gray-900 rounded-xl border border-gray-800">
-                    <h2 className="text-2xl font-semibold">1. Upload Image</h2>
-                    <div className="flex flex-col gap-4">
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            className="block w-full text-sm text-gray-400
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-blue-600 file:text-white
-                hover:file:bg-blue-700
-                cursor-pointer"
-                        />
-                        {previewUrl && (
-                            <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-gray-700">
-                                <img
-                                    src={previewUrl}
-                                    alt="Preview"
-                                    className="object-cover w-full h-full"
-                                />
-                            </div>
-                        )}
+            {/* Hero Section */}
+            <section className={styles.hero}>
+                <h1 className={styles.heroTitle}>AEROMINDS</h1>
+            </section>
+
+            {/* Cards Grid */}
+            <div className={styles.cardGrid}>
+                {/* Card 1: Upload & Controls (Black Theme) */}
+                <div className={styles.card}>
+                    <div className={styles.arrow}>↗</div>
+                    <div className={styles.uploadSection}>
+                        <h2 className={styles.cardTitle}>UPLOAD IMAGERY</h2>
+                        <p className={styles.cardText}>
+                            RAW, DRONE-CAPTURED IMAGERY REVEALS THE TRUE NATURE OF TERRAIN.
+                        </p>
+
+                        <div className="flex flex-col gap-4 mt-4">
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                className={styles.fileInput}
+                            />
+                            {previewUrl && (
+                                <div className="relative aspect-video w-full overflow-hidden border border-gray-700">
+                                    <img
+                                        src={previewUrl}
+                                        alt="Preview"
+                                        className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all"
+                                    />
+                                </div>
+                            )}
+                        </div>
+
                         <button
                             onClick={handleUpload}
                             disabled={!selectedFile || loading}
-                            className={`py-3 px-6 rounded-lg font-semibold transition-all ${!selectedFile || loading
-                                ? "bg-gray-700 text-gray-500 cursor-not-allowed"
-                                : "bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-blue-500/25"
-                                }`}
+                            className={styles.actionButton}
                         >
-                            {loading ? "Processing..." : "Generate 3D Model"}
+                            {loading ? "PROCESSING..." : "GENERATE 3D MODEL"}
                         </button>
                     </div>
                 </div>
 
-                {/* 3D Viewer Panel */}
-                <div className="flex flex-col gap-6 p-6 bg-gray-900 rounded-xl border border-gray-800 md:col-span-2 lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:row-span-2">
-                    <h2 className="text-2xl font-semibold">2. 3D View</h2>
-                    <div className="w-full aspect-square bg-black rounded-lg border border-gray-800 flex items-center justify-center overflow-hidden relative">
+                {/* Card 2: 3D Viewer (Light Theme) */}
+                <div className={`${styles.card} ${styles.cardLight}`}>
+                    <div className={styles.arrow}>↗</div>
+                    <h2 className={styles.cardTitle}>3D VISUALIZATION</h2>
+                    <p className={styles.cardText}>
+                        EXPLORE THE RECONSTRUCTED MODEL IN THREE DIMENSIONS.
+                    </p>
+                    <div className={styles.viewerContainer}>
                         {depthUrl && previewUrl ? (
                             <Viewer3D imageUrl={previewUrl} depthUrl={depthUrl} />
                         ) : (
-                            <div className="text-gray-600 text-center p-4">
-                                <p>Upload and process an image to view the 3D model</p>
+                            <div className="flex items-center justify-center h-full text-center p-4">
+                                <p className="font-mono text-sm">WAITING FOR INPUT DATA...</p>
                             </div>
                         )}
+                    </div>
+                </div>
+
+                {/* Card 3: Info (Light Theme) */}
+                <div className={`${styles.card} ${styles.cardLight}`}>
+                    <div className={styles.arrow}>↗</div>
+                    <h2 className={styles.cardTitle}>THE PROJECT</h2>
+                    <p className={styles.cardText}>
+                        EXPERIENCE THE POWERFUL CAPABILITIES OF AERIAL RECONSTRUCTION.
+                        <br /><br />
+                        JOIN US ON A JOURNEY THROUGH DIGITAL TWINS AND PHOTOGRAMMETRY.
+                    </p>
+                    <div className="mt-auto text-4xl font-black opacity-20">
+                        ”
                     </div>
                 </div>
             </div>
