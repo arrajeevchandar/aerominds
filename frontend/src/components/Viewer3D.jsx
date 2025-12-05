@@ -37,8 +37,8 @@ export default function Viewer3D({ imageUrl, depthUrl }) {
   if (!imageUrl || !depthUrl) return null;
 
   return (
-    <div className="w-full h-[600px] bg-gray-900 rounded-lg overflow-hidden">
-      <Canvas shadows>
+    <div style={{ width: '100%', height: '100%', position: 'relative' }} className="bg-gray-900 rounded-lg overflow-hidden">
+      <Canvas shadows style={{ width: '100%', height: '100%' }}>
         <PerspectiveCamera makeDefault position={[0, 10, 10]} />
         <OrbitControls />
 
