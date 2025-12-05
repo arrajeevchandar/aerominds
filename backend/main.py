@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from depth_service import DepthService
+from gemini_service import GeminiService
 import shutil
 import os
 
@@ -22,12 +22,12 @@ app.mount("/processed", StaticFiles(directory="processed"), name="processed")
 app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 # Initialize service globally for now
-depth_service = None
+gemini_service = None
 
 @app.on_event("startup")
 async def startup_event():
-    global depth_service
-    depth_service = DepthService()
+    global gemini_service
+    gemini_service = GeminiService()
 
 @app.post("/upload")
 async def upload_image(file: UploadFile = File(...)):
@@ -35,7 +35,8 @@ async def upload_image(file: UploadFile = File(...)):
     with open(file_location, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
-    depth_map_path = depth_service.process_image(file_location)
+    # Process image using Gemini API for 3D grayscale conversion
+    depth_map_path = gemini_service.process_image(file_location)
     
     return {
         "original_url": f"http://localhost:8000/{file_location}",
