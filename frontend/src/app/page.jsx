@@ -89,18 +89,23 @@ export default function Home() {
                         </p>
 
                         <div className="flex flex-col gap-4 mt-4">
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleFileChange}
-                                className={styles.fileInput}
-                            />
+                            <label className={styles.customFileInput}>
+                                <input
+                                    // style={{ all: "unset" }}
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                    className={styles.fileInput}
+                                />
+                                Browse for 2D Images
+                            </label>
+
                             {previewUrl && (
-                                <div className="relative aspect-video w-full overflow-hidden border border-gray-700">
+                                <div className={styles.previewContainer}>
                                     <img
                                         src={previewUrl}
                                         alt="Preview"
-                                        className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all"
+                                        className={styles.previewImage}
                                     />
                                 </div>
                             )}
@@ -131,20 +136,6 @@ export default function Home() {
                                 <p className="font-mono text-sm">WAITING FOR INPUT DATA...</p>
                             </div>
                         )}
-                    </div>
-                </div>
-
-                {/* Card 3: Info (Light Theme) */}
-                <div className={`${styles.card} ${styles.cardLight}`}>
-                    <div className={styles.arrow}>↗</div>
-                    <h2 className={styles.cardTitle}>THE PROJECT</h2>
-                    <p className={styles.cardText}>
-                        EXPERIENCE THE POWERFUL CAPABILITIES OF AERIAL RECONSTRUCTION.
-                        <br /><br />
-                        JOIN US ON A JOURNEY THROUGH DIGITAL TWINS AND PHOTOGRAMMETRY.
-                    </p>
-                    <div className="mt-auto text-4xl font-black opacity-20">
-                        ”
                     </div>
                 </div>
             </div>
