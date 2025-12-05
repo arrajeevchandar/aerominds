@@ -32,7 +32,7 @@ class GeminiService:
             image_path: Path to the input image
             
         Returns:
-            Path to the processed grayscale 3D model image
+            Path to the processed high-quality MiDaS Depth Map image
         """
         try:
             # Load the input image
@@ -75,6 +75,9 @@ class GeminiService:
                             if output_image.mode != 'L':
                                 output_image = output_image.convert('L')
                             
+                            # Apply negative filter
+                            output_image = self._apply_negative_filter(output_image)
+                            
                             # Save the processed image
                             filename = os.path.basename(image_path)
                             output_path = f"processed/gemini_3d_{filename}"
@@ -92,6 +95,19 @@ class GeminiService:
             print(f"Error processing image with Gemini API: {str(e)}")
             print("Falling back to basic depth estimation")
             return self._fallback_depth_estimation(image_path)
+    
+    def _apply_negative_filter(self, image):
+        """
+        Apply a negative filter to the image (invert colors).
+        
+        Args:
+            image: PIL Image object
+            
+        Returns:
+            PIL Image object with negative filter applied
+        """
+        from PIL import ImageOps
+        return ImageOps.invert(image)
     
     def _fallback_depth_estimation(self, image_path):
         """

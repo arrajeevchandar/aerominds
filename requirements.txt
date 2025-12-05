@@ -1,0 +1,17 @@
+# Video to 3D Mesh Pipeline - Requirements
+# Install using: pip install -r requirements.txt
+
+# Computer Vision and Image Processing
+opencv-python>=4.8.0
+opencv-contrib-python>=4.8.0
+
+# 3D Processing and Mesh Generation
+open3d>=0.17.0
+
+# Numerical Computing
+numpy>=1.24.0
+
+# Note: COLMAP must be installed separately
+# For Windows: Download from https://github.com/colmap/colmap/releases
+# For Linux: Install via apt-get or build from source
+# Ensure COLMAP is added to system PATH
